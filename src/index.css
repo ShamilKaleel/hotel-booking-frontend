@@ -35,4 +35,18 @@ ion-icon {
     max-width: 1440px;
     margin: 0 auto;
   }
+
+  .hover\:shadow-glow:hover {
+    box-shadow: 0 0 15px 5px rgba(245, 56, 93, 0.5);
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
 }
