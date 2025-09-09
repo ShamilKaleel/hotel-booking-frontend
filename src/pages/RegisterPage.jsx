@@ -1,11 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  
   async function registerUser(ev) {
     ev.preventDefault();
     try {
@@ -14,11 +18,33 @@ export default function RegisterPage() {
         email,
         password,
       });
-      alert("Registration successful. Now you can log in");
+      toast.success("Registration successful. Now you can log in", {
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setRedirect(true);
     } catch (e) {
-      alert("Registration failed. Please try again later");
+      console.log(e);
+      toast.error("Registration failed. Please try again later", {
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   }
+  if (redirect) {
+    return <Navigate to={"/login"} />;
+  }
+
   return (
     <div className="mx-auto mt-28 md:max-w-screen-xl">
       <div className="mx-5 2xl:mx-0">
