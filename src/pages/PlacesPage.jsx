@@ -9,6 +9,8 @@ export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [placeToDelete, setPlaceToDelete] = useState(null);
 
   // useEffect(() => {
   //   axios.get("/user-places").then(({ data }) => {
@@ -43,15 +45,29 @@ export default function PlacesPage() {
     );
   }
 
-  const handleDelete = async (placeId) => {
+  const showDeleteConfirmation = (place) => {
+    setPlaceToDelete(place);
+    setShowConfirmDelete(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!placeToDelete) return;
+    
     try {
-      await axios.delete(`/places/${placeId}`);
+      await axios.delete(`/places/${placeToDelete._id}`);
       setPlaces((prevPlaces) =>
-        prevPlaces.filter((place) => place._id !== placeId)
+        prevPlaces.filter((place) => place._id !== placeToDelete._id)
       );
+      setShowConfirmDelete(false);
+      setPlaceToDelete(null);
     } catch (err) {
       console.error("Failed to delete place:", err);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmDelete(false);
+    setPlaceToDelete(null);
   };
 
   return (
@@ -100,7 +116,7 @@ export default function PlacesPage() {
                   </div>
                   <div className=" absolute right-3 top-3">
                     <button
-                      onClick={() => handleDelete(place._id)}
+                      onClick={() => showDeleteConfirmation(place)}
                       className="relative group text-white rounded bg-secondry  hover:text-red-500 duration-500"
                     >
                       <svg
@@ -125,6 +141,32 @@ export default function PlacesPage() {
           </div>
         </div>
       </div>
+
+      {showConfirmDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-secondry p-6 rounded-2xl border border-zinc-800 max-w-md mx-4">
+            <h3 className="text-xl font-semibold text-white mb-4">
+              Are you sure you want to delete?
+            </h3>
+            <p className="text-gray-300 mb-6">
+              This action cannot be undone. "{placeToDelete?.title}" will be permanently deleted.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={handleCancelDelete}
+                className="px-6 py-2 rounded-2xl bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-700 transition-colors duration-300">
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-2xl hover:bg-red-700 duration-300"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
