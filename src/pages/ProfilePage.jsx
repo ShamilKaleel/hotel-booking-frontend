@@ -7,6 +7,7 @@ import AccountNav from "../components/AccountNav";
 
 export default function ProfilePage() {
   const [redirect, setRedirect] = useState(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { ready, user, setUser } = useContext(UserContext);
   let { subpage } = useParams();
   if (subpage === undefined) {
@@ -20,6 +21,14 @@ export default function ProfilePage() {
       setRedirect("/");
       setUser(null);
     }
+  }
+
+  function handleLogoutClick() {
+    setShowLogoutModal(true);
+  }
+
+  function closeModal() {
+    setShowLogoutModal(false);
   }
 
   if (!ready) {
@@ -41,7 +50,7 @@ export default function ProfilePage() {
           {subpage === "profile" && (
             <div className="text-center max-w-lg mx-auto">
               Logged in as {user.name} ({user.email})<br />
-              <button onClick={logout} className="primary max-w-sm mt-2">
+              <button onClick={handleLogoutClick} className="primary max-w-sm mt-2">
                 Logout
               </button>
             </div>
@@ -49,6 +58,33 @@ export default function ProfilePage() {
           {subpage === "places" && <PlacesPage />}
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-secondry p-6 rounded-2xl border border-zinc-800 w-full max-w-md mx-4 shadow-xl transform transition-all">
+            <h3 className="text-xl font-semibold mb-4">Confirm Logout</h3>
+            <p className="text-gray-300 mb-6">Are you sure you want to logout?</p>
+            <div className="flex justify-end space-x-4">
+              <button 
+                onClick={closeModal} 
+                className="px-6 py-2 rounded-2xl bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-700 transition-colors duration-300"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  logout();
+                  closeModal();
+                }} 
+                className="primary px-6 py-2 max-w-[150px]"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

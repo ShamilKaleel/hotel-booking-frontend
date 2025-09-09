@@ -30,7 +30,7 @@ const Hero = () => {
         </h1>
         <h1 
           className={`text-6xl font-bold text-primary transition-all duration-700 delay-300 ${
-            isLoaded ? "opacity-100 translate-y-0 animate-float" : "opacity-0 translate-y-10"
+            isLoaded ? "opacity-100 translate-y-0 " : "opacity-0 translate-y-10"
           }`}
         > 
           StayEase
