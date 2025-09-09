@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+textarea {
+  @apply w-full border border-neutral-500 my-1 py-2 px-3 rounded bg-secondry focus:ring-gray-400 focus:outline-none focus:ring-1;
+}
+textarea {
+  height: 140px;
+}
+button {
+  @apply bg-gray-300 text-black;
+}
+button.primary {
+  background-color: #f5385d;
+  @apply bg-lime-500 p-2 w-full text-black rounded-2xl;
+}
+
+body {
+  @apply m-0 text-white bg-neutral-900 font-lexend;
+}
+
+ion-icon {
+  font-size: 40px;
+}
+
+@layer components {
+  .max-container {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+}
