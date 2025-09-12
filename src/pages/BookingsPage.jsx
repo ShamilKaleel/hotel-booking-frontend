@@ -11,6 +11,8 @@ export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [bookingToDelete, setBookingToDelete] = useState(null);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -28,16 +30,30 @@ export default function BookingsPage() {
     fetchBookings();
   }, []);
 
-  const handleDelete = async (bookingId) => {
+  const showDeleteConfirmation = (booking) => {
+    setBookingToDelete(booking);
+    setShowConfirmDelete(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!bookingToDelete) return;
+    
     try {
-      await axios.delete(`/bookings/${bookingId}`);
+      await axios.delete(`/bookings/${bookingToDelete._id}`);
       setBookings((prevBookings) =>
-        prevBookings.filter((booking) => booking._id !== bookingId)
+        prevBookings.filter((booking) => booking._id !== bookingToDelete._id)
       );
+      setShowConfirmDelete(false);
+      setBookingToDelete(null);
     } catch (err) {
       console.log(err.message);
       setError(err.message);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmDelete(false);
+    setBookingToDelete(null);
   };
 
   if (loading) {
@@ -96,7 +112,7 @@ export default function BookingsPage() {
 
                   <div className=" absolute right-3 top-3">
                     <button
-                      onClick={() => handleDelete(booking._id)}
+                      onClick={() => showDeleteConfirmation(booking)}
                       className="relative group text-white rounded bg-secondry  hover:text-red-500 duration-500"
                     >
                       <svg
@@ -112,7 +128,7 @@ export default function BookingsPage() {
                         />
                       </svg>
                       <span className="absolute hidden group-hover:block top-7 right-0 bg-slate-200 text-secondry text-xs rounded px-2 py-1 shadow-lg">
-                        Delete
+                        Cancel Booking
                       </span>
                     </button>
                   </div>
@@ -124,6 +140,33 @@ export default function BookingsPage() {
           )}
         </div>
       </div>
+
+      {showConfirmDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-secondry p-6 rounded-2xl border border-zinc-800 max-w-md mx-4">
+            <h3 className="text-xl font-semibold text-white mb-4">
+              Are you sure you want to cancel the booking?
+            </h3>
+            <p className="text-gray-300 mb-6">
+              This action cannot be undone. Your booking for "{bookingToDelete?.place?.title}" will be permanently cancelled.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={handleCancelDelete}
+                className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 duration-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 duration-300"
+              >
+                Yes, Cancel Booking
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
