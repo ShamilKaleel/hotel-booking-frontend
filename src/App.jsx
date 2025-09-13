@@ -7,6 +7,7 @@ import axios from "axios";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import PlacesPage from "./pages/PlacesPage";
 import PlacesFormPage from "./pages/PlacesFormPage";
+import PlaceBookingsPage from "./pages/PlaceBookingsPage";
 import PlacePage from "./pages/PlacePage";
 import BookingsPage from "./pages/BookingsPage";
 import BookingPage from "./pages/BookingPage";
@@ -17,7 +18,8 @@ import AboutPage from "./pages/AboutPage.jsx";
 import AllPalcesPage from "./pages/AllPalcesPage.jsx";
 
 //axios.defaults.baseURL = "https://online-booking-app.vercel.app/api";
-axios.defaults.baseURL ="http://localhost:4000/api";
+axios.defaults.baseURL ="https://hotel-booking-backend-git-dev-shamils-projects-fd5dd9ce.vercel.app/api"
+// "http://localhost:4000/api";
   // "https://online-booking-app-git-main-shamil-kaleels-projects.vercel.app/api";
 axios.defaults.withCredentials = true;
 
@@ -52,6 +54,13 @@ function App() {
             element={
               <PlacesFormPage />
               // {/*user && ready ? <PlacesFormPage /> : <Navigate to="/login"/>*/}
+            }
+          />
+          <Route
+            path="/account/places/booking/:id"
+            element={
+              <PlaceBookingsPage />
+              // {/*user && ready ? <PlaceBookingsPage /> : <Navigate to="/login"/>*/}
             }
           />
           <Route path="/place/:id" element={<PlacePage />} />

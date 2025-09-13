@@ -35,4 +35,53 @@ ion-icon {
     max-width: 1440px;
     margin: 0 auto;
   }
+
+  .hover\:shadow-glow:hover {
+    box-shadow: 0 0 15px 5px rgba(245, 56, 93, 0.5);
+  }
+  
+  .hover\:shadow-lime:hover {
+    box-shadow: 0 0 15px 5px rgba(132, 204, 22, 0.4);
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 3s ease-in-out infinite;
+  }
+  
+  .service-card-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .service-card-hover:hover {
+    transform: translateY(-8px);
+  }
+  
+  @keyframes shine {
+    100% {
+      left: 125%;
+    }
+  }
+  
+  .group-hover\:animate-shine:hover {
+    animation: shine 1.5s ease-in-out;
+  }
+  
+  .animate-shine {
+    animation: shine 1.5s ease-in-out;
+  }
 }
