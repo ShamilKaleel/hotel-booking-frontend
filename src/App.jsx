@@ -18,7 +18,8 @@ import AboutPage from "./pages/AboutPage.jsx";
 import AllPalcesPage from "./pages/AllPalcesPage.jsx";
 
 //axios.defaults.baseURL = "https://online-booking-app.vercel.app/api";
-axios.defaults.baseURL ="http://localhost:4000/api";
+axios.defaults.baseURL ="https://hotel-booking-backend-git-dev-shamils-projects-fd5dd9ce.vercel.app/api"
+// "http://localhost:4000/api";
   // "https://online-booking-app-git-main-shamil-kaleels-projects.vercel.app/api";
 axios.defaults.withCredentials = true;
 
