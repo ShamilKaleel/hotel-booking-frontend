@@ -55,10 +55,10 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
     ev.preventDefault();
     try {
       const filename = url.split(
-        `https://${import.meta.env.AWS_BUCKET_NAME}.s3.amazonaws.com/`
+        `https://${import.meta.env.VITE_AWS_BUCKET_NAME}.s3.amazonaws.com/`
       )[1];
 
-      console.log(part);
+      console.log(filename);
       const response = await axios.delete(`/places/image/${filename}`);
       console.log(response.data);
       onChange([...addedPhotos.filter((photo) => photo !== url)]);
